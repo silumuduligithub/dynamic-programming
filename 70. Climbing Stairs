@@ -1,0 +1,15 @@
+class Solution {
+    public int climbStairs(int n) {
+        int res = memoization(0, n, new int[n + 1]);
+        return res;
+    }
+    public int memoization(int src, int dest, int[] storage){
+        if(src > dest)return 0;
+        if(src == dest) return 1;
+        if(storage[src] != 0)return storage[src];
+        int c1 = memoization(src + 1, dest, storage);
+        int c2 = memoization(src + 2, dest, storage);
+        storage[src] = c1 + c2;
+        return c1 + c2;
+    }
+}
