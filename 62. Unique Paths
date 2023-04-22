@@ -1,0 +1,18 @@
+class Solution {
+    public int uniquePaths(int m, int n) {
+        Integer[][] storage = new Integer[m][n];
+        return paths(0, 0, m - 1, n - 1, storage);
+    }
+    public int paths(int sr, int sc, int n, int m, Integer[][] storage){
+         if(sr > n || sc > m)return 0;
+        if(sr== n && sc == m){
+           return 1;
+        }
+        if(storage[sr][sc] != null)return storage[sr][sc];
+       int right = paths(sr, sc + 1, n, m, storage);
+       int down = paths(sr + 1,sc, n, m, storage);
+        storage[sr][sc] = right + down;
+        return storage[sr][sc];
+
+    }
+}
