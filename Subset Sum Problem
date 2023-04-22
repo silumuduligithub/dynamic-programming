@@ -1,0 +1,99 @@
+// problem:
+
+Subset Sum Problem
+Given an array of integers and a sum, determine if there is a subset of the array such that the sum of elements in the subset is equal to the given sum.
+
+Input Format
+The first line contains n and sum, separated by a space. The second line contains n space-separated integers arr[i] where 0 <= i < n.
+
+Output Format
+Print YES if there is a subset of the array with sum equal to the given sum. Otherwise, print NO.
+
+Example 1
+Input
+
+5 12
+1 2 3 7 5
+Output
+
+YES
+Explanation
+
+The subset is {5, 7} with sum equal to 12.
+
+Example 2
+Input
+
+5 21
+1 2 3 4 5
+Output
+
+NO
+Explanation
+
+There is no subset with sum equal to 21.
+
+Constraints
+1 <= n <= 100
+1 <= arr[i] <= 100
+1 <= sum <= 100000
+
+
+
+solution:
+---------
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+class Solution {
+
+	public static int minPathSum(int[][] input) {
+		//Your code goes here
+		return memo(input, 0, 0, new int[input.length][input[0].length]);
+	}
+	public static int memo(int[][] grid, int sr, int sc, int[][] storage){
+        if(sr >= grid.length || sc >= grid[0].length)return Integer.MAX_VALUE;
+        if(sr == grid.length - 1 && sc == grid[0].length - 1)return grid[sr][sc];
+        if(storage[sr][sc] != 0)return storage[sr][sc];
+        int right = memo(grid, sr, sc + 1, storage);
+        int down = memo(grid, sr + 1, sc, storage);
+        int min = Math.min(right, down);
+        storage[sr][sc] = min + grid[sr][sc];
+        return storage[sr][sc];
+    }
+}
+public class Main {
+
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    
+    public static int[][] take2DInput() throws IOException {
+        String[] strRowsCols = br.readLine().trim().split("\\s");
+        int mRows = Integer.parseInt(strRowsCols[0]);
+        int nCols = Integer.parseInt(strRowsCols[1]);
+
+        if (mRows == 0) {
+            return new int[0][0];
+        }
+
+
+        int[][] mat = new int[mRows][nCols];
+
+        for (int row = 0; row < mRows; row++) {
+            String[] strNums; 
+            strNums = br.readLine().trim().split("\\s");
+            
+            for (int col = 0; col < nCols; col++) {
+                mat[row][col] = Integer.parseInt(strNums[col]);
+            }
+        }
+
+        return mat;
+    }
+
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        int[][] mat = take2DInput();
+        System.out.println(Solution.minPathSum(mat));
+    }
+}
