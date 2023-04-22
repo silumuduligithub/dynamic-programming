@@ -1,0 +1,35 @@
+ public int minPathSum(int[][] grid) {
+        return memo(grid, 0, 0, new int[grid.length][grid[0].length]);
+        //int[][] storage = tabulation(grid);
+        return storage[0][0];
+    }
+    // in memoization
+    public int memo(int[][] grid, int sr, int sc, int[][] storage){
+        if(sr >= grid.length || sc >= grid[0].length)return Integer.MAX_VALUE;
+        if(sr == grid.length - 1 && sc == grid[0].length - 1)return grid[sr][sc];
+        if(storage[sr][sc] != 0)return storage[sr][sc];
+        int right = memo(grid, sr, sc + 1, storage);
+        int down = memo(grid, sr + 1, sc, storage);
+        int min = Math.min(right, down);
+        storage[sr][sc] = min + grid[sr][sc];
+        return storage[sr][sc];
+    }
+    // in tabulation
+    public int[][] tabulation(int[][] grid){
+        int n = grid.length;
+        int m = grid[0].length;
+        int[][] storage = new int[n][m];
+        for(int i = n - 1; i >= 0; i--){
+            for(int j = m - 1; j >= 0; j--){
+                if(i == n - 1 && j == m - 1){
+                    storage[i][j] = grid[i][j];
+                    continue;
+                }
+                int right = j + 1 >= grid[0].length ? Integer.MAX_VALUE : storage[i][j + 1];
+                int down = i + 1 >= grid.length ? Integer.MAX_VALUE : storage[i + 1][j];
+                storage[i][j] = grid[i][j] + Math.min(down, right);  
+            }
+        }
+        return storage;
+    }
+}
