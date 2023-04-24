@@ -1,3 +1,4 @@
+// in memoization
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
         return memoization(triangle, 0, 0, new Integer[triangle.size()][triangle.size()]);
@@ -9,5 +10,25 @@ class Solution {
         int diagonal = memoization(triangle, sr + 1, sc + 1, storage);
         storage[sr][sc] = triangle.get(sr).get(sc) + Math.min(down, diagonal);
         return storage[sr][sc];
+    }
+}
+
+// in tabulation
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        int[][] storage = new int[n][n];
+        for(int i = n - 1; i >= 0; i--){
+            for(int j = 0; j <= i; j++){
+                if(i == n - 1){
+                    storage[i][j] = triangle.get(i).get(j);
+                    continue;
+                }
+                int down = storage[i + 1][j];
+                int diagonal = storage[i + 1][j + 1];
+                storage[i][j] = triangle.get(i).get(j) + Math.min(down, diagonal);
+            }
+        }
+        return storage[0][0];
     }
 }
