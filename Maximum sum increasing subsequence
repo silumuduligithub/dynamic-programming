@@ -1,0 +1,20 @@
+
+class Solution
+{
+	public int maxSumIS(int nums[], int n)  
+	{  
+	   int ans = 0;
+	   int[] dp = new int[n];
+	   for(int i = 0; i < n; i++){
+	       int sum = 0;
+	       for(int j = i; j >= 0; j--){
+	           if(nums[i] > nums[j]){
+	                sum = Math.max(sum, dp[j]);
+	           }
+	       }
+	       dp[i] = sum + nums[i];
+	       ans = Math.max(dp[i], ans);
+	   }
+	    return ans;
+	}   
+}
