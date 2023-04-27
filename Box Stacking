@@ -1,0 +1,46 @@
+
+// question link:
+
+class Solution
+{
+    static class Box implements Comparable<Box>{
+		int h;
+		int l;
+		int b;
+		Box(int h, int l, int b){
+			this.h = h;
+			this.l = l;
+			this.b = b;
+		}
+		public int compareTo(Box b){
+			if(this.l == b.l)return this.b - b.b;
+			return this.l - b.l;
+		}
+	}
+    public static int maxHeight(int[] height, int[] width, int[] length, int n)
+    {
+       Box[] boxes = new Box[3 * n];
+		for(int i = 0; i < n; i++){
+			int h = height[i];
+			int l = length[i];
+			int b = width[i];
+			boxes[i * 3] = new Box(h, Math.min(l, b), Math.max(l, b));
+			boxes[3 * i + 1] = new Box(l, Math.min(h, b), Math.max(h, b));
+			boxes[3 * i + 2] = new Box(b, Math.min(l, h), Math.max(h, l));
+		}
+		Arrays.sort(boxes);
+		int ans = 0;
+		int[] storage = new int[3 * n];
+		for(int i = 0; i < boxes.length; i++){
+			int max = 0;
+			for(int j = i - 1; j >= 0; j--){
+				if(boxes[i].l > boxes[j].l && boxes[i].b > boxes[j].b){
+					max = Math.max(max, storage[j]);
+				}
+			}
+			storage[i] = max + boxes[i].h;
+			ans = Math.max(storage[i], ans);
+		}
+		return ans;
+    }
+}
