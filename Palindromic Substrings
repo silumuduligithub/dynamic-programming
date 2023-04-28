@@ -1,0 +1,84 @@
+Palindromic Substrings
+Given a string s, return the number of palindromic substrings in it.
+
+A string is a palindrome when it reads the same backward as forward.
+
+A substring is a contiguous sequence of characters within the string.
+
+Note: You just need to complete the function countSubstrings() and return the number of palindromic substrings in s
+
+Input Format
+The first line contains a string s.
+
+Output Format
+Return the count of number of palindromic substrings.
+
+Example 1
+Input
+
+wxyz
+Output
+
+4
+Explanation
+
+Here we can have 4 possible substrings:"w","x","y","z".
+Example 2
+Input
+
+aabaa
+Output
+
+9
+Explanation
+
+Here we can have 9 possible substrings:"a","a","b","a","a","aa","aa","aabaa","aba".
+Constraints
+`1 <= s.length <= 1000`
+`s` consists of lowercase English letters.
+
+
+
+
+
+
+
+
+
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class Solution{
+     public static int countSubstrings(String str) {
+        //Write your code here
+		 int count = 0, n = str.length();
+		 boolean[][] dp = new boolean[n][n];
+		 for(int dig = 0; dig < n; dig++){
+			for(int i = 0, j = dig; j < n; j++, i++){
+				char start = str.charAt(i);
+				char end = str.charAt(j);
+				if(dig == 0){
+					dp[i][j] = true;
+				}else if(dig == 1){
+					if(start == end)dp[i][j] = true;
+				}else{
+					if(start == end)dp[i][j] = dp[i + 1][j - 1];
+				}
+				if(dp[i][j] == true)count++;
+			}
+		 }
+		 return count;
+    }
+}
+/* Name of the class has to be "Main" only if the class is public. */
+class Main
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		// your code goes here
+        Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+        System.out.print(Solution.countSubstrings(str));
+	}
+}
