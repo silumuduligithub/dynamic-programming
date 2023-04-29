@@ -1,0 +1,16 @@
+// if n is 0 then our answer is 1 if n == 1 ans is 9 
+// if n == 2 ans is 1 + 9 + 81
+// if n == 3 ans is 1 + 9 + 81 + 9 * 9 * 8 = 
+class Solution {
+    public int countNumbersWithUniqueDigits(int n) {
+        if(n == 0)return 1;
+        int ans = 10;
+        int cur = 9;
+        int start = 9;
+        while(n-- > 1){
+            cur *= start--;
+            ans += cur;
+        }
+        return ans;
+    }
+}
