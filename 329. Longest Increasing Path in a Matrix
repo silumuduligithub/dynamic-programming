@@ -1,0 +1,37 @@
+class Solution {
+    public int longestIncreasingPath(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int[][] dp = new int[n][m];
+        int max = 0;
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length; j++){
+                max = Math.max(max, LongestIncreasigPath(i, j, matrix, dp));
+            }
+        }
+        return max;
+    }
+    public int LongestIncreasigPath(int sr, int sc, int[][] matrix, int[][] dp){
+        if(sr < 0 || sc < 0 || sr >= matrix.length || sc >= matrix[0].length)return 0;
+        if(dp[sr][sc] > 0)return dp[sr][sc];
+        // first call for upword direaction
+        int curMax = 1;
+        if(sr - 1 >= 0 && matrix[sr - 1][sc] > matrix[sr][sc]){
+            curMax = Math.max(curMax, LongestIncreasigPath(sr - 1, sc, matrix, dp) + 1);
+        }
+        // call for rightward direaction
+        if(sc + 1 < matrix[0].length && matrix[sr][sc + 1] > matrix[sr][sc]){
+            curMax = Math.max(curMax, LongestIncreasigPath(sr, sc + 1, matrix, dp) + 1);
+        }
+        // call for downword direaction
+        if(sr + 1 < matrix.length && matrix[sr + 1][sc] > matrix[sr][sc]){
+            curMax = Math.max(curMax, LongestIncreasigPath(sr + 1, sc, matrix, dp) + 1);
+        }
+        // call for leftward direaction
+        if(sc - 1 >= 0 && matrix[sr][sc - 1] > matrix[sr][sc]){
+            curMax = Math.max(curMax, LongestIncreasigPath(sr, sc - 1, matrix, dp) + 1);
+        }
+        dp[sr][sc] = curMax;
+        return dp[sr][sc];
+    }
+}
