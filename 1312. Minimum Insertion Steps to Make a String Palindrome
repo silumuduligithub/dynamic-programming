@@ -1,0 +1,29 @@
+// first we have to calculet the longest pallindromic substring and then we have to subtract the length of the longest pallindromic subsequences from input string s;
+
+class Solution {
+    public int minInsertions(String s) {
+        int length = pallindromicSubeq(s);
+        System.out.println(length);
+        return s.length() - length;
+    }
+    public int pallindromicSubeq(String str){
+        int n = str.length();
+        int[][] dp = new int[n][n];
+        for(int dig = 0; dig < n; dig++){
+            for(int i = 0, j = dig; j < n; j++, i++){
+                int start = str.charAt(i);
+                int end = str.charAt(j);
+                if(dig == 0){
+                    dp[i][j] = 1;
+                }else if(dig == 1){
+                    if(start == end)dp[i][j] = 2;
+                    else dp[i][j] = 1;
+                }else{
+                    if(start == end)dp[i][j] = dp[i + 1][j - 1] + 2;
+                    else dp[i][j] = Math.max(dp[i][j - 1], dp[i + 1][j]);
+                }
+            }
+        }
+        return dp[0][n - 1];
+    }
+}
