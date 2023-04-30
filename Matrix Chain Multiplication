@@ -1,0 +1,22 @@
+class Solution{
+    static int matrixMultiplication(int N, int arr[])
+    {
+        // code here
+        int[][] dp = new int[N][N];
+        return memo(0, N - 1, arr, dp);
+    }
+    static int memo(int i, int j, int[] arr, int[][] dp){
+        if(i + 1 == j)return 0;
+        if(dp[i][j] != 0)return dp[i][j];
+        int minCost = Integer.MAX_VALUE;
+        for(int cut = i + 1; cut < j; cut++){
+            int left = memo(i, cut, arr, dp);
+            int right = memo(cut, j, arr, dp);
+            int myCost = arr[i] * arr[j] * arr[cut];
+            int finalCost = left + right + myCost;
+            minCost = Math.min(minCost, finalCost);
+        }
+        dp[i][j] = minCost;
+        return dp[i][j];
+    }
+}
