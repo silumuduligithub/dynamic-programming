@@ -1,0 +1,20 @@
+class Solution {
+    public int numTrees(int n) {
+        if(n < 2)return 1;
+        n = n + 1;
+        int catalan[] = new int[n + 1];
+        if(n <= 2)return 1;
+        catalan[0] = 1;
+        catalan[1] = 1;
+        return catalanNumber(2,catalan);
+    }
+    public int catalanNumber(int start,int[] catalan){
+        if(start == catalan.length)return catalan[catalan.length - 1];
+        int count = 0, j = 0, k = start;
+        while(j < start && k >= 0){
+            count = count + catalan[j++] * catalan[k--];
+        } 
+        catalan[start] = count;
+        return catalanNumber(start + 1, catalan);
+    }
+}
