@@ -1,0 +1,13 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        int pervSellStock = 0;
+        int prevBuyStock = Integer.MIN_VALUE;
+        for(int i = 0; i < prices.length; i++){
+            int buy = Math.max(prevBuyStock, -prices[i]);
+            int sell = Math.max(pervSellStock, prevBuyStock + prices[i]);
+            prevBuyStock = buy;
+            pervSellStock = sell;
+        }
+        return pervSellStock;
+    }
+}
