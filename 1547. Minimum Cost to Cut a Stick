@@ -1,0 +1,22 @@
+class Solution {
+    public int minCost(int n, int[] cuts) {
+        Arrays.sort(cuts);
+        return calculetCost(n, 0, cuts.length - 1, cuts, new int[cuts.length][cuts.length]);
+    }
+    public int calculetCost(int n, int i, int j, int[] cuts, int[][] dp){
+        if(i > j)return 0;
+        int minimumCost = Integer.MAX_VALUE;
+        if(dp[i][j] != 0)return dp[i][j];
+        for(int cut = i; cut <= j; cut++){
+            int leftCost = calculetCost(n, i, cut - 1, cuts, dp);
+            int rightCost = calculetCost(n, cut + 1, j, cuts, dp);
+            int startPoint = i == 0 ? 0 : cuts[i - 1];
+            int endPoint = j == cuts.length - 1 ? n : cuts[j + 1];
+            int myCost = endPoint - startPoint;
+            int totalCost = leftCost + myCost + rightCost;
+            minimumCost = Math.min(minimumCost, totalCost); 
+        }
+        dp[i][j] = minimumCost;
+        return minimumCost;
+    }
+}
