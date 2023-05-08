@@ -1,0 +1,27 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+       int listSofar = prices[0];
+       int profitUptoDay = 0;
+       int[] dpr = new int[prices.length];
+       for(int i = 1; i < prices.length; i++){
+           listSofar = Math.min(listSofar, prices[i]);
+           int todayProfit = prices[i] - listSofar;
+           profitUptoDay = Math.max(profitUptoDay, todayProfit);
+           dpr[i] = profitUptoDay;
+       } 
+       int profitSoFar = prices[prices.length - 1];
+       int leftProfit = 0;
+       int[] dpl = new int[prices.length];
+       for(int i = prices.length - 2; i >= 0; i--){
+           profitSoFar = Math.max(profitSoFar, prices[i]);
+           int todayProfit = profitSoFar - prices[i];
+           leftProfit = Math.max(leftProfit, todayProfit);
+           dpl[i] = leftProfit; 
+       }
+       int res = 0;
+       for(int i = 0; i < dpl.length; i++){
+           res = Math.max(res, dpl[i] + dpr[i]);
+       }
+       return res;
+    }
+}
