@@ -1,0 +1,13 @@
+class Solution {
+    public int maxProfit(int[] prices, int fee) {
+        int oldBuyCost = -prices[0];
+        int oldSellCost = 0;
+        for(int i = 1; i < prices.length; i++){
+            int newBuyState = oldSellCost - prices[i];
+            oldBuyCost = Math.max(oldBuyCost ,newBuyState);
+            int newSellState = oldBuyCost + prices[i] - fee;
+            oldSellCost = Math.max(oldSellCost, newSellState);
+        }  
+        return oldSellCost;
+    }
+}
