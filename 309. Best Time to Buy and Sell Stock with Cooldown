@@ -1,0 +1,15 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        int obsp = -prices[0];
+        int ossp = 0;
+        int ocsp = 0;
+        for(int i = 1; i < prices.length; i++){
+            int nbsp = ocsp - prices[i];
+            obsp = Math.max(obsp, nbsp);
+            ocsp = Math.max(ossp, ocsp);
+            int nssp = obsp + prices[i];
+            ossp = Math.max(ossp, nssp);
+        }
+        return ossp;
+    }
+}
