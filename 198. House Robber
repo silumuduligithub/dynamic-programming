@@ -1,0 +1,41 @@
+class Solution {
+    //  time complexity is O(n) and space complexity is o(n) + stack space
+    public int memoization(int[] nums, int  idx, int[] dp){
+        if(idx >= nums.length)return 0;
+        if(dp[idx] != 0)return dp[idx];
+        int include = memoization(nums, idx + 2, dp) + nums[idx];
+        int exclude = memoization(nums, idx + 1, dp) + 0;
+        dp[idx] = Math.max(include, exclude);
+        return dp[idx];
+    }
+    // time complexity is O(n) and space complexity is O(n)
+    public int tabulation(int[] nums){
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        for(int i = 1; i < nums.length; i++){
+            int check = i - 2 < 0 ? 0 : dp[i - 2];
+            int include = check + nums[i];
+            int exclude = dp[i - 1] + 0;
+            dp[i] = Math.max(include, exclude); 
+        }
+        return dp[nums.length - 1];
+    }
+    //time complexity is O(n) and space complexity is O(1);
+    public int spaceOptimize(int nums[]){
+        if(nums.length == 1)return nums[0];
+        int prev1 = nums[0];
+        int prev2 = 0;
+        for(int i = 1; i < nums.length; i++){
+            int include = prev2 + nums[i];
+            int exclude = prev1 + 0;
+            prev2 = prev1;
+            prev1 = Math.max(include , exclude);
+        }
+        return prev1;
+    }
+    public int rob(int[] nums) {
+        // return memoization(nums, 0, new int[nums.length]);
+        // return tabulation(nums);
+        return spaceOptimize(nums);
+    }
+}
