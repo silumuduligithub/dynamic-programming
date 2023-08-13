@@ -1,0 +1,21 @@
+class Solution {
+    public boolean memo(int[] nums, int idx, Boolean[] dp){
+        if(idx == nums.length)return true;
+        if(dp[idx] != null)return dp[idx];
+        boolean res = false;
+        if(idx + 1 < nums.length && nums[idx] == nums[idx + 1]){
+            res = memo(nums, idx + 2, dp);
+            if(idx + 2 < nums.length && nums[idx] == nums[idx + 2]){
+                res = res || memo(nums, idx + 3, dp);
+            }
+        }
+        if(idx + 2 < nums.length && nums[idx + 2] - nums[idx + 1] == 1 && nums[idx + 1] - nums[idx] == 1){
+            res = res || memo(nums, idx + 3, dp);
+        }
+        dp[idx] = res;
+        return dp[idx];
+    }
+    public boolean validPartition(int[] nums) {
+        return memo(nums, 0, new Boolean[nums.length]);
+    }
+}
