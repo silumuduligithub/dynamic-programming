@@ -1,0 +1,33 @@
+class Solution {
+    class Pair implements Comparable<Pair>{
+        int a;
+        int b;
+        Pair(int a, int b){
+            this.a = a;
+            this.b = b;
+        }
+        public int compareTo(Pair o){
+            return this.a - o.a;
+        }
+    }
+    public int findLongestChain(int[][] pairs) {
+        Pair[] arr = new Pair[pairs.length];
+        for(int i = 0; i < pairs.length; i++){
+            arr[i] = new Pair(pairs[i][0], pairs[i][1]);
+        }
+        Arrays.sort(arr);
+        int count = 0;
+        int[] dp = new int[pairs.length];
+        for(int i = 0; i < pairs.length; i++){
+            int max = 0;
+            for(int j = i - 1; j >= 0; j--){
+                if(arr[i].a > arr[j].b){
+                    max = Math.max(dp[j], max);
+                }
+            }
+            dp[i] = max + 1;
+            count = Math.max(dp[i], count);
+        }
+        return count;
+    }
+}
