@@ -1,0 +1,26 @@
+class Solution {
+    HashMap<String, Boolean> flagMap = new HashMap<>();
+    HashMap<String, Integer> dp = new HashMap<>();
+    public int helper(String word, String[] words){
+        if(!flagMap.containsKey(word))return 0;
+        if(dp.containsKey(word))return dp.get(word);
+        int maxLength = 1;
+        for(int i = 0; i < word.length(); i++){
+            String str = word.substring(0, i) + word.substring(i + 1);
+            int curAns = helper(str, words) + 1;
+            maxLength = Math.max(maxLength, curAns);
+        }
+        dp.put(word, maxLength);
+        return maxLength;
+    }
+    public int longestStrChain(String[] words) {
+        for(String word : words){
+            flagMap.put(word, true);
+        }
+        int ans = 1;
+        for(String word : words){
+            ans = Math.max(ans, helper(word, words));
+        }
+        return ans;
+    }
+}
