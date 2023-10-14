@@ -1,0 +1,16 @@
+class Solution {
+    public int helper(int[] cost, int[] time, int curWall, int remainingWall, Integer[][] dp){
+        if(remainingWall <= 0)return 0;
+        if(curWall >= cost.length)return 1000000000 + 7;
+        if(dp[curWall][remainingWall] != null)return dp[curWall][remainingWall];
+        // i want to color that wall
+        int wantAns = helper(cost, time, curWall + 1, remainingWall - time[curWall]  -  1, dp) + cost[curWall];
+        // i don't want to color that wall
+        int doNotWant = helper(cost, time, curWall + 1, remainingWall, dp);
+        return dp[curWall][remainingWall] = Math.min(wantAns, doNotWant);
+    }
+    public int paintWalls(int[] cost, int[] time) {
+        Integer[][] dp = new Integer[cost.length][501];
+       return helper(cost, time, 0, cost.length, dp); 
+    }
+}
