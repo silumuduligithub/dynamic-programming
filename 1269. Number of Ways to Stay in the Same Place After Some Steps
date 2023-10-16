@@ -1,0 +1,19 @@
+class Solution {
+    Long mod = (long)1000000000 + 7;
+    public long helper(int cur, int curStep, int steps, int arrLen, Long[][] dp){
+        if(cur >= dp[0].length)return 0;
+        if(curStep == steps && cur == 0){
+            return 1;
+        }
+        if(cur < 0 || curStep > steps)return 0;
+        if(dp[curStep][cur] != null)return dp[curStep][cur] % mod;
+        long left = helper(cur - 1, curStep + 1, steps, arrLen, dp);
+        long right = helper(cur + 1, curStep + 1, steps, arrLen, dp);
+        long stay = helper(cur, curStep + 1, steps, arrLen, dp);
+        return dp[curStep][cur] = (left + right + stay) % mod;
+    }
+    public int numWays(int steps, int arrLen) {
+        
+          return (int)helper(0, 0, steps, arrLen, new Long[steps + 1][Math.min(steps / 2 + 1, arrLen)]);
+    }
+}
