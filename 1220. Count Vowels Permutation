@@ -1,0 +1,44 @@
+class Solution {
+    int mod = 1000000000 + 7;
+    public long countPermutation(int remaingCharacter, char prevCharacter, HashMap<String, Long> dp){
+        if(remaingCharacter == 0)return 1;
+        String key = remaingCharacter +" "+ prevCharacter;
+        if(dp.containsKey(key)){
+            return dp.get(key);
+        }
+        long total = 0;
+        switch(prevCharacter){
+            case 'a': {
+                total = countPermutation(remaingCharacter - 1, 'e', dp);
+                break;
+            }
+            case 'e' :{ 
+                total = countPermutation(remaingCharacter - 1, 'a', dp) + countPermutation(remaingCharacter - 1, 'i', dp);
+                break;
+            }
+            case 'i' : {
+                total = countPermutation(remaingCharacter - 1, 'a', dp)  + countPermutation(remaingCharacter - 1, 'e', dp) + countPermutation(remaingCharacter - 1, 'o', dp) + countPermutation(remaingCharacter - 1, 'u', dp);
+                break;
+            }
+            case 'o' : {
+                total = countPermutation(remaingCharacter - 1, 'i', dp) + countPermutation(remaingCharacter - 1, 'u', dp);
+                break;
+            }
+            case 'u' : {
+                total = countPermutation(remaingCharacter - 1, 'a', dp);
+                break;
+            }
+        }
+        dp.put(key, total % mod);
+        return total % mod;
+    }
+    public int countVowelPermutation(int n) {
+        long total = 0;
+        char[] charSet = new char[]{'a', 'e', 'i', 'o', 'u'};
+        HashMap<String, Long> dp = new HashMap<>();
+        for(char ch : charSet){
+            total  = (total + (countPermutation(n - 1, ch, dp)% mod)) % mod;
+        }
+        return (int)(total % mod);
+    }
+}
